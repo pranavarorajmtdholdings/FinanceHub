@@ -199,6 +199,28 @@ export const insertTriggeredAlertSchema = createInsertSchema(triggeredAlerts).om
   triggeredAt: true,
 });
 
+// Update schemas (partial versions for PATCH endpoints)
+export const updateAccountSchema = z.object({
+  name: z.string().min(1).optional(),
+  accountType: z.enum(["checking", "savings", "investment", "credit"]).optional(),
+  accountSubtype: z.enum(["checking", "savings", "401k", "ira", "brokerage", "credit_card", "line_of_credit"]).optional(),
+  currentBalance: z.string().optional(),
+  availableBalance: z.string().optional(),
+  creditLimit: z.string().optional(),
+  isFavorite: z.boolean().optional(),
+  isActive: z.boolean().optional(),
+}).strict();
+
+export const updateAlertSchema = z.object({
+  accountId: z.string().nullable().optional(),
+  alertType: z.enum(["balance_threshold", "due_date", "utilization_spike"]).optional(),
+  thresholdAmount: z.string().nullable().optional(),
+  thresholdPercentage: z.number().int().min(0).max(100).nullable().optional(),
+  daysBeforeDue: z.number().int().min(1).max(365).nullable().optional(),
+  notificationMethod: z.enum(["in_app", "email"]).optional(),
+  isActive: z.boolean().optional(),
+}).strict();
+
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;

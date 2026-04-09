@@ -67,6 +67,7 @@ export default function ManualAddModal({ isOpen, onClose }: ManualAddModalProps)
         plaidAccountId: null,
         officialName: data.name,
         isManual: true,
+        dueDate: data.accountType === "credit" && data.dueDate ? data.dueDate : undefined,
       };
 
       const res = await apiRequest("POST", "/api/accounts/manual", accountData);

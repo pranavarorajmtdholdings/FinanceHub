@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Plus, Trash2, Bell, BellOff } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import type { Alert } from "@shared/schema";
+import type { Alert, Account } from "@shared/schema";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const alertFormSchema = z.object({
@@ -35,7 +35,7 @@ export default function AlertsPage() {
     queryKey: ["/api/alerts"],
   });
 
-  const { data: accounts = [] } = useQuery<any[]>({
+  const { data: accounts = [] } = useQuery<Account[]>({
     queryKey: ["/api/accounts"],
   });
 
@@ -77,11 +77,10 @@ export default function AlertsPage() {
         description: "Alert created successfully",
       });
     },
-    onError: (error: any) => {
-      console.error("Alert creation error:", error);
+    onError: (error: Error) => {
       toast({
         title: "Error",
-        description: error?.message || "Failed to create alert",
+        description: error.message || "Failed to create alert",
         variant: "destructive",
       });
     },
@@ -137,7 +136,6 @@ export default function AlertsPage() {
   };
 
   const onSubmit = (data: AlertFormValues) => {
-    console.log("Form submitted with data:", data);
     createAlertMutation.mutate(data);
   };
 
@@ -209,7 +207,7 @@ export default function AlertsPage() {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="all">All Accounts</SelectItem>
-                              {accounts.map((account: any) => (
+                              {accounts.map((account) => (
                                 <SelectItem key={account.id} value={account.id}>
                                   {account.name}
                                 </SelectItem>

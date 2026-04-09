@@ -15,22 +15,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
-interface Account {
-  id: string;
-  name: string;
-  officialName?: string;
-  accountType: string;
-  accountSubtype: string;
-  mask: string;
-  currentBalance: string;
-  availableBalance?: string;
-  creditLimit?: string;
-  lastUpdated: string;
-  institutionId?: string;
-  isManual: boolean;
-  isFavorite?: boolean;
-}
+import type { Account } from "@shared/schema";
 
 interface AccountTableProps {
   accounts: Account[];
